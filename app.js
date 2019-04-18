@@ -11,7 +11,7 @@ const server = http.createServer ((req, res) => {
     res.write (
       `<body>
             <form action="/message" method="POST">
-                <input type="text" name="name">
+                <input type="text" name="message">
                 <button type="submit">Send</button>
             </form>
         </body>`
@@ -21,7 +21,18 @@ const server = http.createServer ((req, res) => {
   }
 
   if (url === '/message' && method === 'POST') {
-    fs.writeFileSync ('message.txt', 'Dummy text');
+    const body = [];
+
+    req.on ('data', chunk => {
+      body.push (chunk);
+    });
+
+    req.on ('end', () => {
+      const parsedBody = Buffer.concat (body).toString ();
+      const message = parsedBody.split ('=')[1].split ('+').join (' ');
+      fs.writeFileSync ('message.txt', message);
+    });
+
     res.writeHead (302, {Location: '/'});
     return res.end ();
   }
