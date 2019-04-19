@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs/issues"
   },
-  "homepage": "https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs#readme"
+  "homepage": "https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
 }
