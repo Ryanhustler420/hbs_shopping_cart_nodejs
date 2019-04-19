@@ -23,5 +23,9 @@
   "homepage": "https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs#readme",
   "devDependencies": {
     "nodemon": "^1.18.11"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
   }
 }
