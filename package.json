@@ -1,0 +1,24 @@
+{
+  "name": "hbs_shopping_cart_nodejs",
+  "version": "1.0.0",
+  "description": "shoping card build with nodejs and mongodb with handlebars",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs.git"
+  },
+  "keywords": [
+    "shopping",
+    "cart"
+  ],
+  "author": "GauravGupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs/issues"
+  },
+  "homepage": "https://github.com/Ryanhustler420/hbs_shopping_cart_nodejs#readme"
+}
