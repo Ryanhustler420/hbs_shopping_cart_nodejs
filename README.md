@@ -15,3 +15,4 @@ npm starts - start the app with nodemon
 ## 3rd Party Packages In Use
 
 > nodemon -g || nodemon --save-dev
+> express --save
