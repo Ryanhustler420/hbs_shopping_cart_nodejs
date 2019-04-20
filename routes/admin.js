@@ -6,6 +6,9 @@ const rootDir = require ('../util/path');
 
 const router = express.Router ();
 
+// tiny database
+const products = [];
+
 // /admin/add-product => GET
 router.get ('/add-product', (req, res, next) => {
   res.sendFile (path.join (rootDir, 'views', 'add-product.html'));
@@ -14,8 +17,9 @@ router.get ('/add-product', (req, res, next) => {
 // /admin/add-product => POST
 router.post ('/add-product', (req, res, next) => {
   const {title} = req.body;
-  console.log (title);
+  products.push ({title: title});
   res.redirect ('/');
 });
 
-module.exports = router;
+exports.routes = router;
+exports.products = products;
