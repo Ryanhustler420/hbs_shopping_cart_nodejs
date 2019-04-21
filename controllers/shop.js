@@ -36,6 +36,14 @@ exports.getCheckout = (req, res, next) => {
   });
 };
 
+exports.getOrders = (req, res, next) => {
+  // show checkout page
+  res.render ('shop/orders', {
+    pageTitle: 'Your Orders',
+    path: '/orders',
+  });
+};
+
 // exports.editProductWithId = (req, res, next) => {
 //   // get id from params
 //   console.log (req.params.id);
