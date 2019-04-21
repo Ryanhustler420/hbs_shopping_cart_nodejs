@@ -19,3 +19,9 @@ npm starts - start the app with nodemon
 > express --save
 
 > body-parser --save
+
+> pug --save
+
+> handlebars --save
+
+> ejs --save
