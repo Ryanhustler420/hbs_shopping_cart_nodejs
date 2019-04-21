@@ -18,15 +18,13 @@ exports.postAddProduct = (req, res, next) => {
   res.redirect ('/');
 };
 
-exports.getProducts = (req, res, next) => {
+exports.getOwnersProductList = (req, res, next) => {
+  // return all products create by login user
   Product.fetchAll (products => {
-    res.render ('shop/product-list', {
+    res.render ('admin/admins-products-list', {
       prods: products,
-      pageTitle: 'shop',
-      path: '/',
-      hasProduct: products.length > 0,
-      activeShop: true,
-      productCSS: true,
+      pageTitle: 'Admin Products',
+      path: '/admin/admins-products-list',
     });
   });
 };
