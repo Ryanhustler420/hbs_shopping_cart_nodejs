@@ -1,1 +1,9 @@
-[{"title":"Book","imageUrl":"https://kali.training/wp-content/uploads/2017/06/kali-linux-revealed-book-mock-3.png","description":"The Kali Black Book","price":"98.33","id":"0.5777799505903438"}]
+[
+  {
+    "title": "Book",
+    "imageUrl": "https://www.washingtonpost.com/resizer/cLo47kJ8o6UoNqiB1ulZc0x21AE=/300x0/arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/Z6ISPYGH5EI6RMPNDUWWLODNBQ.jpg",
+    "description": "The Kali Black Book",
+    "price": "98.33",
+    "id": "0.5777799505903438"
+  }
+]
