@@ -36,6 +36,8 @@ exports.getEditProduct = (req, res, next) => {
   });
 };
 
+exports.postEditProduct = (req, res, next) => {};
+
 exports.getOwnersProductList = (req, res, next) => {
   // return all products create by login user
   Product.fetchAll (products => {
