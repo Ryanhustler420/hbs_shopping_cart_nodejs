@@ -8,6 +8,7 @@ const {
   getCartItems,
   getCheckout,
   getOrders,
+  getProductDetail,
 } = require ('../controllers/shop');
 
 const router = express.Router ();
@@ -15,6 +16,8 @@ const router = express.Router ();
 router.get ('/', getIndex);
 
 router.get ('/products', getProductsList);
+
+router.get ('/products/:productId', getProductDetail);
 
 router.get ('/cart', getCartItems);
 
