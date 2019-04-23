@@ -43,6 +43,9 @@ module.exports = class Cart {
       }
       let updatedCart = {...JSON.parse (fileContent)};
       const product = updatedCart.products.findIndex (prod => prod.id === id);
+      if (!product) {
+        return;
+      }
       const prodyQty = product.qty;
       updatedCart.products = updatedCart.products.filter (
         prod => prod.id !== id
