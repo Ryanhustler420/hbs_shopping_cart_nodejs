@@ -11,7 +11,7 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const {title, imageUrl, price, description} = req.body;
-  const product = new Product (title, imageUrl, description, price);
+  const product = new Product (null, title, imageUrl, description, price);
   product.save ();
   // products.push ({title: title});
   res.redirect ('/');
@@ -36,7 +36,18 @@ exports.getEditProduct = (req, res, next) => {
   });
 };
 
-exports.postEditProduct = (req, res, next) => {};
+exports.postEditProduct = (req, res, next) => {
+  const {productId, title, price, imageUrl, description} = req.body;
+  const updatedProduct = new Product (
+    productId,
+    title,
+    imageUrl,
+    description,
+    price
+  );
+  updatedProduct.save ();
+  res.redirect ('/admin/admins-products-list');
+};
 
 exports.getOwnersProductList = (req, res, next) => {
   // return all products create by login user
