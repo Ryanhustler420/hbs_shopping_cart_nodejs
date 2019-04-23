@@ -39,11 +39,23 @@ module.exports = class Product {
           console.log (getPath (), err);
         });
       } else {
+        this.id = Math.random ().toString ();
         products.push (this);
         fs.writeFile (getPath (), JSON.stringify (products), err => {
           console.log (getPath (), err);
         });
       }
+    });
+  }
+
+  static deleteById (prodId, cb) {
+    getProductsFromFile (products => {
+      const updatedProducts = products.filter (prod => prod.id !== prodId);
+      fs.writeFile (getPath (), JSON.stringify (updatedProducts), err => {
+        if (!err) {
+        }
+        console.log (getPath (), err);
+      });
     });
   }
 

@@ -49,6 +49,15 @@ exports.postEditProduct = (req, res, next) => {
   res.redirect ('/admin/admins-products-list');
 };
 
+exports.postdeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.deleteById (prodId, isDeleted => {
+    isDeleted
+      ? res.redirect ('/amin/admins-products-list')
+      : res.status (500).send ({deleted: isDeleted});
+  });
+};
+
 exports.getOwnersProductList = (req, res, next) => {
   // return all products create by login user
   Product.fetchAll (products => {
