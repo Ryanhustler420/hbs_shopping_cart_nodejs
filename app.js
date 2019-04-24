@@ -6,7 +6,7 @@ const bodyParser = require ('body-parser');
 const app = express ();
 
 const {error404} = require ('./controllers/error');
-const mongoConnect = require ('./util/database');
+const {mongoConnect} = require ('./util/database');
 
 app.set ('view engine', 'ejs');
 app.set ('views', 'views'); //where to find the templates
