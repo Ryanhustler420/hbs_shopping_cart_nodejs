@@ -40,6 +40,8 @@ npm starts - start the app with nodemon
 
 > Select `Connect You Application` in Overview -> Connect
 
+> You Can Download `MongoDB Compass` To Intract With Cloud Storage
+
 for example
 
 ```
