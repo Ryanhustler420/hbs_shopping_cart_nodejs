@@ -45,3 +45,5 @@ for example
 ```
 mongodb+srv://username:<password>@cluster0-erk9k.mongodb.net/test?retryWrites=true
 ```
+
+> npm install --save mongodb
