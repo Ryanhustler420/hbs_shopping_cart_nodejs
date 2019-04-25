@@ -15,13 +15,9 @@ class Product {
     let dbOp;
     if (this._id) {
       // update the product
-      const {title, price, description, imageUrl} = this;
       dbOp = db
         .collection ('products')
-        .updateOne (
-          {_id: new mongodb.ObjectID (this._id)},
-          {$set: {title, price, description, imageUrl}}
-        );
+        .updateOne ({_id: new mongodb.ObjectID (this._id)}, {$set: this});
     } else {
       dbOp = db.collection ('products').insertOne (this);
     }

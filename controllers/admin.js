@@ -1,4 +1,5 @@
 const Product = require ('../models/product');
+const ObjectId = require ('mongodb').ObjectID;
 
 exports.getAddProduct = (req, res, next) => {
   res.render ('admin/edit-product', {
@@ -55,10 +56,14 @@ exports.postEditProduct = (req, res, next) => {
     price,
     description,
     imageUrl,
-    productId
+    new ObjectId (productId)
   );
-  updatedProduct.save ();
-  res.redirect ('/admin/admins-products-list');
+  updatedProduct
+    .save ()
+    .then (result => {
+      res.redirect ('/admin/admins-products-list');
+    })
+    .catch (err => console.log (err));
 };
 
 // exports.postdeleteProduct = (req, res, next) => {
