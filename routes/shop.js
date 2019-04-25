@@ -21,9 +21,9 @@ router.get ('/products', getProductsList);
 
 router.get ('/products/:productId', getProductDetail);
 
-// router.get ('/cart', getCartItems);
+router.get ('/cart', getCartItems);
 
-router.post ('/cart', postCart);
+// router.post ('/cart', postCart);
 
 // router.post ('/cart-delete-item', postCartDeleteProduct);
 

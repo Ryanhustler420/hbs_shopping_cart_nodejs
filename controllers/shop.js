@@ -44,62 +44,56 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCartItems = (req, res, next) => {
-  // return current user cart items
-  Cart.getCart (cart => {
-    Product.fetchAll (products => {
-      const cartProducts = [];
-      for (product of products) {
-        const cartProductData = cart.products.find (
-          prod => prod.id === product.id
-        );
-        if (cartProductData) {
-          cartProducts.push ({productData: product, qty: cartProductData.qty});
-        }
-      }
+  req.user
+    .getCart ()
+    .then (products => {
+      console.log ('hello');
       res.render ('shop/cart', {
         pageTitle: 'Your Cart',
         path: '/cart',
-        products: cartProducts,
+        products: products,
       });
-    });
-  });
-};
-
-exports.postCart = (req, res, next) => {
-  const prodId = req.body.productId;
-  Product.findById (prodId)
-    .then (product => {
-      return req.user.addToCart (product);
     })
-    .then (result => {
-      console.log (result);
-      res.redirect ('/cart');
+    .catch (err => {
+      console.log (err);
     });
 };
 
-exports.postCartDeleteProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  Product.findById (prodId, product => {
-    Cart.deleteProduct (prodId, product.price);
-    res.redirect ('/cart');
-  });
-};
+// exports.postCart = (req, res, next) => {
+//   const prodId = req.body.productId;
+//   Product.findById (prodId)
+//     .then (product => {
+//       return req.user.addToCart (product);
+//     })
+//     .then (result => {
+//       console.log (result);
+//       res.redirect ('/cart');
+//     });
+// };
 
-exports.getCheckout = (req, res, next) => {
-  // show checkout page
-  res.render ('shop/checkout', {
-    pageTitle: 'Checkout',
-    path: '/checkout',
-  });
-};
+// exports.postCartDeleteProduct = (req, res, next) => {
+//   const prodId = req.body.productId;
+//   Product.findById (prodId, product => {
+//     Cart.deleteProduct (prodId, product.price);
+//     res.redirect ('/cart');
+//   });
+// };
 
-exports.getOrders = (req, res, next) => {
-  // show checkout page
-  res.render ('shop/orders', {
-    pageTitle: 'Your Orders',
-    path: '/orders',
-  });
-};
+// exports.getCheckout = (req, res, next) => {
+//   // show checkout page
+//   res.render ('shop/checkout', {
+//     pageTitle: 'Checkout',
+//     path: '/checkout',
+//   });
+// };
+
+// exports.getOrders = (req, res, next) => {
+//   // show checkout page
+//   res.render ('shop/orders', {
+//     pageTitle: 'Your Orders',
+//     path: '/orders',
+//   });
+// };
 
 // exports.editProductWithId = (req, res, next) => {
 //   // get id from params
