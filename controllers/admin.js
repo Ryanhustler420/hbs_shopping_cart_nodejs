@@ -25,24 +25,28 @@ exports.postAddProduct = (req, res, next) => {
   // products.push ({title: title});
 };
 
-// exports.getEditProduct = (req, res, next) => {
-//   const editMode = req.query.edit;
-//   if (editMode !== 'true') {
-//     return res.redirect ('/');
-//   }
-//   const prodId = req.params.productId;
-//   Product.findById (prodId, product => {
-//     if (!product) {
-//       return res.redirect ('/');
-//     }
-//     res.render ('admin/edit-product', {
-//       pageTitle: 'Edit Product',
-//       path: '/admin/edit-product',
-//       editing: editMode,
-//       product: product,
-//     });
-//   });
-// };
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit;
+  if (editMode !== 'true') {
+    return res.redirect ('/');
+  }
+  const prodId = req.params.productId;
+  Product.findById (prodId)
+    .then (product => {
+      if (!product) {
+        return res.redirect ('/');
+      }
+      res.render ('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: product,
+      });
+    })
+    .catch (err => {
+      console.log (err);
+    });
+};
 
 // exports.postEditProduct = (req, res, next) => {
 //   const {productId, title, price, imageUrl, description} = req.body;
@@ -63,13 +67,17 @@ exports.postAddProduct = (req, res, next) => {
 //   res.redirect ('/admin/admins-products-list');
 // };
 
-// exports.getOwnersProductList = (req, res, next) => {
-//   // return all products create by login user
-//   Product.fetchAll (products => {
-//     res.render ('admin/admins-products-list', {
-//       prods: products,
-//       pageTitle: 'Admin Products',
-//       path: '/admin/admins-products-list',
-//     });
-//   });
-// };
+exports.getOwnersProductList = (req, res, next) => {
+  // return all products create by login user
+  Product.fetchAll ()
+    .then (products => {
+      res.render ('admin/admins-products-list', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/admin/admins-products-list',
+      });
+    })
+    .catch (err => {
+      console.log (err);
+    });
+};
