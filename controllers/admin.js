@@ -65,11 +65,16 @@ exports.postEditProduct = (req, res, next) => {
     .catch (err => console.log (err));
 };
 
-// exports.postdeleteProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   Product.deleteById (prodId);
-//   res.redirect ('/admin/admins-products-list');
-// };
+exports.postdeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.deleteById (prodId)
+    .then (() => {
+      res.redirect ('/admin/admins-products-list');
+    })
+    .catch (err => {
+      console.log (err);
+    });
+};
 
 exports.getOwnersProductList = (req, res, next) => {
   // return all products create by login user

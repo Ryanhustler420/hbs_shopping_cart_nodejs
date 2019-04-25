@@ -7,7 +7,7 @@ class Product {
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
-    this._id = new mongodb.ObjectID (id);
+    this._id = new mongodb.ObjectId (id);
   }
 
   save () {
@@ -17,7 +17,7 @@ class Product {
       // update the product
       dbOp = db
         .collection ('products')
-        .updateOne ({_id: new mongodb.ObjectID (this._id)}, {$set: this});
+        .updateOne ({_id: new mongodb.ObjectId (this._id)}, {$set: this});
     } else {
       dbOp = db.collection ('products').insertOne (this);
     }
@@ -45,11 +45,24 @@ class Product {
     const db = getDb ();
     return db
       .collection ('products')
-      .find ({_id: new mongodb.ObjectID (id)})
+      .find ({_id: new mongodb.ObjectId (id)})
       .next ()
       .then (product => {
         // console.log (product);
         return product;
+      })
+      .catch (err => {
+        console.log (err);
+      });
+  }
+
+  static deleteById (id) {
+    const db = getDb ();
+    return db
+      .collection ('products')
+      .deleteOne ({_id: new mongodb.ObjectId (id)})
+      .then (result => {
+        console.log ('deleted');
       })
       .catch (err => {
         console.log (err);
