@@ -14,13 +14,13 @@ const {
 const router = express.Router ();
 
 // // /admin/add-product => GET
-// router.get ('/add-product', getAddProduct);
+router.get ('/add-product', getAddProduct);
 
 // // /admin/admins-product-list => GET
 // router.get ('/admins-products-list', getOwnersProductList);
 
 // // /admin/add-product => POST
-// router.post ('/add-product', postAddProduct);
+router.post ('/add-product', postAddProduct);
 
 // router.get ('/edit-product/:productId', getEditProduct);
 
