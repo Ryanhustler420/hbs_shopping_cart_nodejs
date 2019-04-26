@@ -47,7 +47,6 @@ exports.getCartItems = (req, res, next) => {
   req.user
     .getCart ()
     .then (products => {
-      console.log ('hello');
       res.render ('shop/cart', {
         pageTitle: 'Your Cart',
         path: '/cart',
@@ -70,13 +69,17 @@ exports.postCart = (req, res, next) => {
     });
 };
 
-// exports.postCartDeleteProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   Product.findById (prodId, product => {
-//     Cart.deleteProduct (prodId, product.price);
-//     res.redirect ('/cart');
-//   });
-// };
+exports.postCartDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  req.user
+    .deleteProduct (prodId)
+    .then (result => {
+      res.redirect ('/cart');
+    })
+    .catch (err => {
+      console.log (err);
+    });
+};
 
 // exports.getCheckout = (req, res, next) => {
 //   // show checkout page
