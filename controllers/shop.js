@@ -35,7 +35,7 @@ exports.getIndex = (req, res, next) => {
       res.render ('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
-        path: '/products',
+        path: '/',
       });
     })
     .catch (err => {
