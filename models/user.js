@@ -57,11 +57,39 @@ class User {
   getCart () {
     const db = getDb ();
     const productsIds = this.cart.items.map (i => i.productId);
+    const productsIds_as_string = this.cart.items.map (i =>
+      i.productId.toString ()
+    );
     return db
       .collection ('products')
       .find ({_id: {$in: productsIds}})
       .toArray ()
       .then (products => {
+        const current = products.map (c => c._id.toString ());
+
+        let idsToRemoveFromUsersCart = productsIds_as_string.filter (
+          x => !current.includes (x)
+        );
+
+        let mongo_idsObjectID = idsToRemoveFromUsersCart.map (
+          id => new mongodb.ObjectId (id)
+        );
+
+        if (idsToRemoveFromUsersCart.length > 0) {
+          db.collection ('users').updateOne (
+            {_id: new mongodb.ObjectId (this._id)},
+            {
+              $pull: {
+                'cart.items': {
+                  productId: {
+                    $in: mongo_idsObjectID,
+                  },
+                },
+              },
+            }
+          );
+        }
+
         return products.map (p => {
           return {
             ...p,
