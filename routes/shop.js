@@ -26,7 +26,7 @@ router.get ('/cart', getCartItems);
 
 router.post ('/cart', postCart);
 
-// router.post ('/cart-delete-item', postCartDeleteProduct);
+router.post ('/cart-delete-item', postCartDeleteProduct);
 
 // router.post ('/create-order', postOrder);
 
