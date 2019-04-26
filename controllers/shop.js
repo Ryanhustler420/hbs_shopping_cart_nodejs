@@ -121,8 +121,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 // };
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrders ()
+  Order.find ({'user.userId': req.user._id})
     .then (result => {
       res.render ('shop/orders', {
         pageTitle: 'Your Orders',
