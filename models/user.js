@@ -93,11 +93,24 @@ class User {
         },
       }
     );
+  }
 
-    // get cart
-    // check if id exist
-    // remove which matches with para id
-    // update cart array
+  addOrder () {
+    const db = getDb ();
+    return db.collection ('orders').insertOne (this.cart).then (result => {
+      this.cart = {items: []};
+      db.collection ('users').updateOne (
+        {_id: new mongodb.ObjectId (this._id)},
+        {
+          $set: {
+            //   'cart.items': updatedProduct, // this one is also right
+            cart: {
+              items: [],
+            },
+          },
+        }
+      );
+    });
   }
 }
 
