@@ -83,7 +83,10 @@ exports.postdeleteProduct = (req, res, next) => {
 exports.getOwnersProductList = (req, res, next) => {
   // return all products create by login user
   Product.find ()
+    // .select ('title price -_id')
+    // .populate ('userId', 'name')
     .then (products => {
+      console.log (products);
       res.render ('admin/admins-products-list', {
         prods: products,
         pageTitle: 'Admin Products',
