@@ -25,3 +25,27 @@ npm starts - start the app with nodemon
 > handlebars --save
 
 > ejs --save
+
+## DB solution
+
+> Signup For MongoDB Atlas Dastabase as a Service
+
+> Create A New Cluster
+
+> Choose Free Tier MO Sandbox for Cluster
+
+> Go To Security and Add one user with (Read and Write to any database)
+
+> Add Current IP Address to cluster
+
+> Select `Connect You Application` in Overview -> Connect
+
+> You Can Download `MongoDB Compass` To Intract With Cloud Storage
+
+for example
+
+```
+mongodb+srv://username:<password>@cluster0-erk9k.mongodb.net/test?retryWrites=true
+```
+
+> npm install --save mongodb
