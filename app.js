@@ -2,11 +2,11 @@ const path = require ('path');
 
 const express = require ('express');
 const bodyParser = require ('body-parser');
+const mongoose = require ('mongoose');
 
 const app = express ();
 
 const {error404} = require ('./controllers/error');
-const {mongoConnect} = require ('./util/database');
 const {User} = require ('./models/user');
 
 app.set ('view engine', 'ejs');
@@ -32,6 +32,14 @@ app.use (shopRoutes);
 
 app.use (error404);
 
-mongoConnect (() => {
-  app.listen (3000);
-});
+mongoose
+  .connect (
+    'mongodb+srv://GauravGupta:phpmyadmin@cluster0-erk3k.mongodb.net/shop?retryWrites=true',
+    {useNewUrlParser: true}
+  )
+  .then (result => {
+    app.listen (3000);
+  })
+  .catch (err => {
+    console.log (err);
+  });

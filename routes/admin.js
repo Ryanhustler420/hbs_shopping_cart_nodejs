@@ -13,19 +13,19 @@ const {
 
 const router = express.Router ();
 
-// /admin/add-product => GET
-router.get ('/add-product', getAddProduct);
+// // /admin/add-product => GET
+// router.get ('/add-product', getAddProduct);
 
-// /admin/admins-product-list => GET
-router.get ('/admins-products-list', getOwnersProductList);
+// // /admin/admins-product-list => GET
+// router.get ('/admins-products-list', getOwnersProductList);
 
-// /admin/add-product => POST
-router.post ('/add-product', postAddProduct);
+// // /admin/add-product => POST
+// router.post ('/add-product', postAddProduct);
 
-router.get ('/edit-product/:productId', getEditProduct);
+// router.get ('/edit-product/:productId', getEditProduct);
 
-router.post ('/edit-product', postEditProduct);
+// router.post ('/edit-product', postEditProduct);
 
-router.post ('/delete-product', postdeleteProduct);
+// router.post ('/delete-product', postdeleteProduct);
 
 module.exports = router;
