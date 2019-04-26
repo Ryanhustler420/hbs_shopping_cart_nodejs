@@ -45,17 +45,17 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCartItems = (req, res, next) => {
   req.user
-    .getCart ()
-    .then (products => {
+    .populate ('cart.items.productId')
+    .execPopulate ()
+    .then (user => {
+      const products = user.cart.items;
       res.render ('shop/cart', {
         pageTitle: 'Your Cart',
         path: '/cart',
         products: products,
       });
     })
-    .catch (err => {
-      console.log (err);
-    });
+    .catch (err => console.log (err));
 };
 
 exports.postOrder = (req, res, next) => {
