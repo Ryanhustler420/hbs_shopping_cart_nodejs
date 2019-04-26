@@ -16,9 +16,9 @@ const {
 
 const router = express.Router ();
 
-// router.get ('/', getIndex);
+router.get ('/', getIndex);
 
-// router.get ('/products', getProductsList);
+router.get ('/products', getProductsList);
 
 // router.get ('/products/:productId', getProductDetail);
 
