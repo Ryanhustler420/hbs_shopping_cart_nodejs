@@ -98,13 +98,20 @@ exports.postCartDeleteProduct = (req, res, next) => {
 //   });
 // };
 
-// exports.getOrders = (req, res, next) => {
-//   // show checkout page
-//   res.render ('shop/orders', {
-//     pageTitle: 'Your Orders',
-//     path: '/orders',
-//   });
-// };
+exports.getOrders = (req, res, next) => {
+  req.user
+    .getOrders ()
+    .then (result => {
+      res.render ('shop/orders', {
+        pageTitle: 'Your Orders',
+        path: '/orders',
+        orders: result,
+      });
+    })
+    .catch (err => {
+      console.log (err);
+    });
+};
 
 // exports.editProductWithId = (req, res, next) => {
 //   // get id from params
