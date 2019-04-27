@@ -4,6 +4,7 @@ exports.getLogin = (req, res, next) => {
   // user can manupulate cookies data so that we should not store sensitive data
   // into clients browser
 
+  console.log (req.session.isLoggedIn);
   res.render ('auth/login', {
     path: '/login',
     pageTitle: 'Login',
@@ -14,6 +15,6 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   // this isLoggedIn will be lose after the call finishesh
   // res.setHeader ('Set-Cookie', 'loggedIn=true; Max-Age=10; Secure; HttpOnly');
-  res.setHeader ('Set-Cookie', 'loggedIn=true; HttpOnly');
+  req.session.isLoggedIn = true;
   res.redirect ('/');
 };
