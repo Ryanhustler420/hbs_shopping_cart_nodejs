@@ -30,6 +30,8 @@ npm starts - start the app with nodemon
 
 > express-session --save
 
+> connect-mongodb-session --save
+
 ## DB solution
 
 > Signup For MongoDB Atlas Dastabase as a Service
