@@ -32,6 +32,8 @@ npm starts - start the app with nodemon
 
 > connect-mongodb-session --save
 
+> bcryptjs --save
+
 ## DB solution
 
 > Signup For MongoDB Atlas Dastabase as a Service
