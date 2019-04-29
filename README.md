@@ -36,6 +36,8 @@ npm starts - start the app with nodemon
 
 > csurf --save
 
+> connect-flash --save
+
 ## DB solution
 
 > Signup For MongoDB Atlas Dastabase as a Service
