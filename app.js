@@ -5,6 +5,7 @@ const bodyParser = require ('body-parser');
 const mongoose = require ('mongoose');
 const session = require ('express-session');
 const MongoDBStore = require ('connect-mongodb-session') (session);
+const csrf = require ('csurf');
 
 const MONGODB_URI =
   'mongodb+srv://GauravGupta:phpmyadmin@cluster0-erk3k.mongodb.net/shop';
@@ -15,6 +16,8 @@ const store = new MongoDBStore ({
   collection: 'sessions',
   // expires: ''
 });
+
+const csrfProtection = csrf ();
 
 const {error404} = require ('./controllers/error');
 const User = require ('./models/user');
@@ -36,6 +39,8 @@ app.use (
     store: store,
   })
 );
+
+app.use (csrfProtection);
 
 app.use ((req, res, next) => {
   if (!req.session.user) {
