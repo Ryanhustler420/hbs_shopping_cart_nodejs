@@ -2,6 +2,7 @@ const express = require ('express');
 
 // const rootDir = require ('../util/path');
 // const adminData = require ('./admin');
+const isAuth = require ('../middleware/is-auth');
 const {
   getProductsList,
   getIndex,
@@ -22,15 +23,15 @@ router.get ('/products', getProductsList);
 
 router.get ('/products/:productId', getProductDetail);
 
-router.get ('/cart', getCartItems);
+router.get ('/cart', isAuth, getCartItems);
 
-router.post ('/cart', postCart);
+router.post ('/cart', isAuth, postCart);
 
-router.post ('/cart-delete-item', postCartDeleteProduct);
+router.post ('/cart-delete-item', isAuth, postCartDeleteProduct);
 
-router.post ('/create-order', postOrder);
+router.post ('/create-order', isAuth, postOrder);
 
-router.get ('/orders', getOrders);
+router.get ('/orders', isAuth, getOrders);
 
 // router.get ('/checkout', getCheckout);
 
