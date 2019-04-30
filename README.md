@@ -68,4 +68,4 @@ mongodb+srv://username:<password>@cluster0-erk9k.mongodb.net/test?retryWrites=tr
 
 ## Mail Service
 
-> [here](https://sendgrid.com/?opt=ns) Sign up for an acoount if you dont have one!
+> [here](https://sendgrid.com/?opt=ns) Sign up for an acoount if you dont have one! and create an API key
