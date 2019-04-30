@@ -38,6 +38,10 @@ npm starts - start the app with nodemon
 
 > connect-flash --save
 
+> nodemailer --save
+
+> nodemailer-sendgrid-transport --save
+
 ## DB solution
 
 > Signup For MongoDB Atlas Dastabase as a Service
@@ -61,3 +65,7 @@ mongodb+srv://username:<password>@cluster0-erk9k.mongodb.net/test?retryWrites=tr
 ```
 
 > npm install --save mongodb
+
+## Mail Service
+
+> [here](https://sendgrid.com/?opt=ns) Sign up for an acoount if you dont have one! and create an API key
