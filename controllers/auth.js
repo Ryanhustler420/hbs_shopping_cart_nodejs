@@ -135,13 +135,14 @@ exports.getReset = (req, res, next) => {
 };
 
 exports.postReset = (req, res, next) => {
+  const {email} = req.body;
   crypto.randomBytes (32, (err, buffer) => {
     if (err) {
       console.log (err);
       return redirect ('/reset');
     }
     const token = buffer.toString ('hex');
-    User.findOne ({email: req.body.email})
+    User.findOne ({email: email})
       .then (user => {
         if (!user) {
           req.flash ('error', 'No account with that email found.');
@@ -153,15 +154,20 @@ exports.postReset = (req, res, next) => {
       })
       .then (result => {
         res.redirect ('/');
-        transporter.sendMail ({
-          to: req.body.email,
-          from: 'shop@hbsShop.com',
-          subject: 'Password reset',
-          html: `
+        transporter.sendMail (
+          {
+            to: email,
+            from: 'shop@hbsShop.com',
+            subject: 'Password reset',
+            html: `
             <p>You requested a password reset</p>
             <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
           `,
-        });
+          },
+          err => {
+            console.log ('done=-----------------------');
+          }
+        );
       })
       .catch (err => {
         console.log (err);

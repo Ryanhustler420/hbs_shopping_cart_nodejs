@@ -7,6 +7,7 @@ const {
   getSignup,
   postSignup,
   getReset,
+  postReset,
 } = require ('../controllers/auth');
 
 const router = express.Router ();
@@ -22,5 +23,7 @@ router.post ('/signup', postSignup);
 router.post ('/logout', postLogout);
 
 router.get ('/reset', getReset);
+
+router.post ('/reset', postReset);
 
 module.exports = router;
