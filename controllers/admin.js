@@ -60,21 +60,23 @@ exports.postEditProduct = (req, res, next) => {
   const {productId, title, price, imageUrl, description} = req.body;
   Product.findById (productId)
     .then (product => {
+      if ((product.userId !== req.user, _id)) {
+        return res.redirect ('/');
+      }
       product.title = title;
       product.price = price;
       product.imageUrl = imageUrl;
       product.description = description;
-      return product.save ();
-    })
-    .then (result => {
-      res.redirect ('/admin/admins-products-list');
+      product.save ().then (result => {
+        res.redirect ('/admin/admins-products-list');
+      });
     })
     .catch (err => console.log (err));
 };
 
 exports.postdeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findByIdAndDelete (prodId)
+  Product.deleteOne ({_id: prodId, userId: req.user._id})
     .then (() => {
       res.redirect ('/admin/admins-products-list');
     })
