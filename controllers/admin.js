@@ -85,7 +85,7 @@ exports.postdeleteProduct = (req, res, next) => {
 
 exports.getOwnersProductList = (req, res, next) => {
   // return all products create by login user
-  Product.find ()
+  Product.find ({userId: req.user._id})
     // .select ('title price -_id')
     // .populate ('userId', 'name')
     .then (products => {
