@@ -1,5 +1,5 @@
 const express = require ('express');
-const {check} = require ('express-validator/check');
+const {check, body} = require ('express-validator/check');
 
 const {
   getLogin,
@@ -23,7 +23,8 @@ router.post ('/login', postLogin);
 
 router.post (
   '/signup',
-  check ('email')
+  [ // this is optional (wrapping into array)
+    check ('email')
     .isEmail ()
     .withMessage ('Please enter a valid email')
     .custom ((value, {req}) => {
@@ -32,6 +33,13 @@ router.post (
       }
       return true;
     }),
+    body(
+      'password', 
+      'Please enter a password with only numbers and text and at least 5 characters.'
+    )
+      .isLength({min: 5})
+      .isAlphanumeric()
+  ],
   postSignup
 );
 
