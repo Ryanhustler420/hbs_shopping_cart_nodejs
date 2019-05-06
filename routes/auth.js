@@ -29,6 +29,7 @@ router.post (
     check ('email')
     .isEmail ()
     .withMessage ('Please enter a valid email')
+    .normalizeEmail()
     .custom ((value, {req}) => {
       // if (value === 'test@test.com') {
       //   throw new Error ('This email address is forbidden');
@@ -42,19 +43,21 @@ router.post (
           );
         }
       });
-    }),
+    })
+    .normalizeEmail(),
     body(
       'password', 
       'Please enter a password with only numbers and text and at least 5 characters.'
     )
       .isLength({min: 5})
-      .isAlphanumeric(),
+      .isAlphanumeric()
+      .trim(),
     body('confirmPassword').custom((value, {req}) => {
       if(value !== req.body.password){
         throw new Error('Password have to match!');
       }
       return true;
-    })
+    }).trim()
   ],
   postSignup
 );
