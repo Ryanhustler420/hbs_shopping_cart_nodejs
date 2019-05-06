@@ -42,6 +42,8 @@ npm starts - start the app with nodemon
 
 > nodemailer-sendgrid-transport --save
 
+> express-validator --save
+
 ## DB solution
 
 > Signup For MongoDB Atlas Dastabase as a Service
