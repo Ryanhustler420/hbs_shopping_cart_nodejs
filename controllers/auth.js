@@ -15,16 +15,25 @@ const transporter = nodemailer.createTransport (
 );
 
 exports.getLogin = (req, res, next) => {
-  let message = req.flash ('error');
+  let message = vError = req.flash ('error');
+  const oldValue = {}
   if (message.length) {
+    oldValue['email'] = vError[2].email;
+    oldValue['password'] = vError[2].password;
     message = message[0];
   } else {
     message = null;
   }
+
   res.status(422).render ('auth/login', {
     path: '/login',
     pageTitle: 'Login',
     errorMessage: message,
+    validationErrors: vError,
+    oldInput: {
+      email:  oldValue.email || '',
+      password:  oldValue.password || ''
+    }
   });
 };
 
@@ -33,7 +42,7 @@ exports.postLogin = (req, res, next) => {
   User.findOne ({email: email})
     .then (user => {
       if (!user) {
-        req.flash ('error', 'Invalid email or password.');
+        req.flash ('error', ['Invalid Email','email', {email, password}]);
         return res.redirect ('/login');
       }
       bcrypt
@@ -47,12 +56,11 @@ exports.postLogin = (req, res, next) => {
               res.redirect ('/');
             });
           }
-          req.flash ('error', 'Invalid email or password.');
+          req.flash ('error', ['Invalid Password.','password', {email, password}]);
           res.redirect ('/login');
         })
         .catch (err => {
-          console.log (err);
-          req.flash ('error', 'Invalid email or password.');
+          req.flash ('error', ['Invalid Password.','password', {email, password}]);
           res.redirect ('/login');
         });
     })
