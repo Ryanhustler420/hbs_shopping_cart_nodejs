@@ -66,7 +66,7 @@ exports.postLogout = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  const {email, password, confirmPassword} = req.body;
+  const {email, password} = req.body;
   const errors = validationResult (req);
   if (!errors.isEmpty ()) {
     console.log (errors.array ());
@@ -76,44 +76,31 @@ exports.postSignup = (req, res, next) => {
       errorMessage: errors.array ()[0].msg,
     });
   }
-  User.findOne ({email: email})
-    .then (userDoc => {
-      if (userDoc) {
-        req.flash (
-          'error',
-          'E-Mail exists already! please pick a different one.'
-        );
-        return res.redirect ('/signup');
-      }
-      return bcrypt
-        .hash (password, 12)
-        .then (hashPassword => {
-          const user = new User ({
-            email: email,
-            password: hashPassword,
-            cart: {items: []},
-          });
+  return bcrypt
+    .hash (password, 12)
+    .then (hashPassword => {
+      const user = new User ({
+        email: email,
+        password: hashPassword,
+        cart: {items: []},
+      });
 
-          return user.save ();
-        })
-        .then (result => {
-          res.redirect ('/login');
-          return transporter.sendMail ({
-            to: email,
-            from: 'shop@hbsShop.com',
-            subject: 'Signup succeded!',
-            html: `
-              <h1>You successfully signed up! Thanks for creating an account with us.</h1>
-            `,
-          });
-        })
-        .catch (err => {
-          console.log (err);
-        });
+      return user.save ();
+    })
+    .then (result => {
+      res.redirect ('/login');
+      return transporter.sendMail ({
+        to: email,
+        from: 'shop@hbsShop.com',
+        subject: 'Signup succeded!',
+        html: `
+          <h1>You successfully signed up! Thanks for creating an account with us.</h1>
+        `,
+      });
     })
     .catch (err => {
       console.log (err);
-    });
+    })    
 };
 
 exports.getSignup = (req, res, next) => {

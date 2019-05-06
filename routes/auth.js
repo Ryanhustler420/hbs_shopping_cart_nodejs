@@ -13,6 +13,8 @@ const {
   postNewPassword,
 } = require ('../controllers/auth');
 
+const User = require('../models/user');
+
 const router = express.Router ();
 
 router.get ('/login', getLogin);
@@ -28,10 +30,18 @@ router.post (
     .isEmail ()
     .withMessage ('Please enter a valid email')
     .custom ((value, {req}) => {
-      if (value === 'test@test.com') {
-        throw new Error ('This email address is forbidden');
-      }
-      return true;
+      // if (value === 'test@test.com') {
+      //   throw new Error ('This email address is forbidden');
+      // }
+      // return true;      
+      return User.findOne ({email: value})
+      .then (userDoc => {
+        if (userDoc) {
+          return Promise.reject(
+            'E-Mail exists already! please pick a different one.'
+          );
+        }
+      });
     }),
     body(
       'password', 
