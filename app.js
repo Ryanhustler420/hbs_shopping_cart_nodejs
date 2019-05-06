@@ -20,7 +20,7 @@ const store = new MongoDBStore ({
 
 const csrfProtection = csrf ();
 
-const {error404} = require ('./controllers/error');
+const {error404, error500} = require ('./controllers/error');
 const User = require ('./models/user');
 
 app.set ('view engine', 'ejs');
@@ -71,6 +71,8 @@ app.use ((req, res, next) => {
 app.use ('/admin', adminRoutes);
 app.use (shopRoutes);
 app.use (authRoutes);
+
+app.get('/500', error500);
 
 app.use (error404);
 

@@ -1,5 +1,6 @@
 const Product = require ('../models/product');
 const {validationResult} = require ('express-validator/check');
+const mongoose = require('mongoose');
 
 exports.getAddProduct = (req, res, next) => {
   if (!req.session.isLoggedIn) {
@@ -7,7 +8,7 @@ exports.getAddProduct = (req, res, next) => {
   }
   res.render ('admin/edit-product', {
     pageTitle: 'Add Product',
-    path: '/admin/edit-product',
+    path: '/admin/add-product',
     editing: false,
     errorMessage: '',
     product: {
@@ -26,7 +27,7 @@ exports.postAddProduct = (req, res, next) => {
   if(!errors.isEmpty()) {
     return res.status(422).render ('admin/edit-product', {
       pageTitle: 'Add Product',
-      path: '/admin/edit-product',
+      path: '/admin/add-product',
       editing: false,
       errorMessage: errors.array ()[0].msg,
       product: {
@@ -39,6 +40,7 @@ exports.postAddProduct = (req, res, next) => {
     });
   }
   const product = new Product ({
+    // _id: new mongoose.Types.ObjectId('5cc330facd40d814281c41fb'), //creating product with duplicate id
     title,
     price,
     description,
@@ -52,7 +54,23 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect ('/');
     })
     .catch (err => {
-      console.log (err);
+      // console.log ('An error occured!');
+
+      // render 500 server error page
+          // res.render ('admin/edit-product', {
+          //   pageTitle: 'Add Product',
+          //   path: '/admin/add-product',
+          //   editing: false,
+          //   errorMessage: 'Database operation failed, please try again.',
+          //   product: {
+          //     title: title, 
+          //     imageUrl: imageUrl, 
+          //     price: price,
+          //     description: description
+          //   },
+          //   validationErrors: []
+          // });
+      res.redirect('/500');
     });
   // products.push ({title: title});
 };
