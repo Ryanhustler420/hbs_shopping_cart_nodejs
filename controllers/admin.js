@@ -7,7 +7,7 @@ exports.getAddProduct = (req, res, next) => {
   }
   res.render ('admin/edit-product', {
     pageTitle: 'Add Product',
-    path: '/admin/add-product',
+    path: '/admin/edit-product',
     editing: false,
     errorMessage: '',
     product: {
@@ -26,7 +26,7 @@ exports.postAddProduct = (req, res, next) => {
   if(!errors.isEmpty()) {
     return res.status(422).render ('admin/edit-product', {
       pageTitle: 'Add Product',
-      path: '/admin/add-product',
+      path: '/admin/edit-product',
       editing: false,
       errorMessage: errors.array ()[0].msg,
       product: {
@@ -84,6 +84,23 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const {productId, title, price, imageUrl, description} = req.body;
+  const errors = validationResult (req);
+  if(!errors.isEmpty()) {
+    return res.status(422).render ('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      path: '/admin/edit-product',
+      editing: true,
+      errorMessage: errors.array ()[0].msg,
+      product: {
+        title: title, 
+        imageUrl: imageUrl, 
+        price: price,
+        description: description,
+        _id: productId
+      },
+      validationErrors: errors.array()
+    });
+  }
   Product.findById (productId)
     .then (product => {
       if (product.userId.toString () !== req.user._id.toString ()) {
