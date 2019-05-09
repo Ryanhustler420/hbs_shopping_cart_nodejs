@@ -20,7 +20,7 @@ const store = new MongoDBStore ({
 
 const csrfProtection = csrf ();
 
-const {error404} = require ('./controllers/error');
+const {error404, error500} = require ('./controllers/error');
 const User = require ('./models/user');
 
 app.set ('view engine', 'ejs');
@@ -45,28 +45,53 @@ app.use (csrfProtection);
 app.use (flash ());
 
 app.use ((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken ();
+  next ();
+});
+
+app.use ((req, res, next) => {
+  // this will work because it's outside of async code
+  // throw new Error('outside Dummy Err');
   if (!req.session.user) {
     return next ();
   }
   User.findById (req.session.user._id)
     .then (user => {
+      if(!user) {
+        return next();
+      }
       req.user = user;
       next ();
     })
-    .catch (err => console.log (err));
-});
-
-app.use ((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken ();
-  next ();
+    .catch (err =>{
+      // this won't do the trick because it throws the error as async
+      // throw new Error('inside Async Catch Dummy Err');
+      // next(); can do
+      // you have to use next for async like 'next(new Error(dummy))'
+      next(new Error(err));
+    });
 });
 
 app.use ('/admin', adminRoutes);
 app.use (shopRoutes);
 app.use (authRoutes);
 
+app.get('/500', error500);
+
 app.use (error404);
+
+// when you pass anything to 'next(anything)' this special middleware gets call and express
+// knows how to handles such kind of response from other routers
+app.use((error, req, res, next) => {
+  // res.status(error.httpStatusCode).render(...);
+  // res.redirect('/500');
+  res.status (500).render ('500', {
+    pageTitle: 'Error 500',
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn,
+  });
+})
 
 mongoose
   .connect (MONGODB_URI, {useNewUrlParser: true})
