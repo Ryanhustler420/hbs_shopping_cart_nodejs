@@ -45,6 +45,14 @@ app.use (csrfProtection);
 app.use (flash ());
 
 app.use ((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken ();
+  next ();
+});
+
+app.use ((req, res, next) => {
+  // this will work because it's outside of async code
+  // throw new Error('outside Dummy Err');
   if (!req.session.user) {
     return next ();
   }
@@ -57,15 +65,12 @@ app.use ((req, res, next) => {
       next ();
     })
     .catch (err =>{
-      throw new Error(err);
+      // this won't do the trick because it throws the error as async
+      // throw new Error('inside Async Catch Dummy Err');
       // next(); can do
+      // you have to use next for async like 'next(new Error(dummy))'
+      next(new Error(err));
     });
-});
-
-app.use ((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken ();
-  next ();
 });
 
 app.use ('/admin', adminRoutes);
@@ -80,7 +85,12 @@ app.use (error404);
 // knows how to handles such kind of response from other routers
 app.use((error, req, res, next) => {
   // res.status(error.httpStatusCode).render(...);
-  res.redirect('/500');
+  // res.redirect('/500');
+  res.status (500).render ('500', {
+    pageTitle: 'Error 500',
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn,
+  });
 })
 
 mongoose
