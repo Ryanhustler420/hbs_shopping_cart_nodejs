@@ -76,6 +76,13 @@ app.get('/500', error500);
 
 app.use (error404);
 
+// when you pass anything to 'next(anything)' this special middleware gets call and express
+// knows how to handles such kind of response from other routers
+app.use((error, req, res, next) => {
+  // res.status(error.httpStatusCode).render(...);
+  res.redirect('/500');
+})
+
 mongoose
   .connect (MONGODB_URI, {useNewUrlParser: true})
   .then (result => {

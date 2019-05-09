@@ -40,7 +40,7 @@ exports.postAddProduct = (req, res, next) => {
     });
   }
   const product = new Product ({
-    // _id: new mongoose.Types.ObjectId('5cc330facd40d814281c41fb'), //creating product with duplicate id
+    _id: new mongoose.Types.ObjectId('5cc330facd40d814281c41fb'), //creating product with duplicate id
     title,
     price,
     description,
@@ -70,7 +70,10 @@ exports.postAddProduct = (req, res, next) => {
           //   },
           //   validationErrors: []
           // });
-      res.redirect('/500');
+      // res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
   // products.push ({title: title});
 };
@@ -96,7 +99,11 @@ exports.getEditProduct = (req, res, next) => {
       });
     })
     .catch (err => {
-      console.log (err);
+      // console.log (err);
+      // res.redirect('/500');
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -120,7 +127,8 @@ exports.postEditProduct = (req, res, next) => {
     });
   }
   Product.findById (productId)
-    .then (product => {
+  .then (product => {
+      // throw new Error('Dummy');
       if (product.userId.toString () !== req.user._id.toString ()) {
         return res.redirect ('/');
       }
@@ -132,7 +140,12 @@ exports.postEditProduct = (req, res, next) => {
         res.redirect ('/admin/admins-products-list');
       });
     })
-    .catch (err => console.log (err));
+    .catch (err => {
+      // console.log (err)
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postdeleteProduct = (req, res, next) => {
@@ -159,6 +172,9 @@ exports.getOwnersProductList = (req, res, next) => {
       });
     })
     .catch (err => {
-      console.log (err);
+      // console.log (err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
