@@ -40,7 +40,7 @@ exports.postAddProduct = (req, res, next) => {
     });
   }
   const product = new Product ({
-    _id: new mongoose.Types.ObjectId('5cc330facd40d814281c41fb'), //creating product with duplicate id
+    // _id: new mongoose.Types.ObjectId('5cc330facd40d814281c41fb'), //creating product with duplicate id
     title,
     price,
     description,
@@ -155,7 +155,9 @@ exports.postdeleteProduct = (req, res, next) => {
       res.redirect ('/admin/admins-products-list');
     })
     .catch (err => {
-      console.log (err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
