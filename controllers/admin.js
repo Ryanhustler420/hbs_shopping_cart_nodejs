@@ -22,8 +22,9 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const {title, imageUrl, price, description} = req.body;
+  const {title, image, price, description} = req.body;
   const errors = validationResult (req);
+  console.log(image);
   if(!errors.isEmpty()) {
     return res.status(422).render ('admin/edit-product', {
       pageTitle: 'Add Product',
@@ -32,7 +33,7 @@ exports.postAddProduct = (req, res, next) => {
       errorMessage: errors.array ()[0].msg,
       product: {
         title: title, 
-        imageUrl: imageUrl, 
+        imageUrl: image, 
         price: price,
         description: description
       },
