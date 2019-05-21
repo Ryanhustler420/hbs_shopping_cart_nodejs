@@ -10,7 +10,7 @@ const flash = require ('connect-flash');
 const multer = require('multer');
 
 const MONGODB_URI =
-  'mongodb+srv://GauravGupta:phpmyadmin@cluster0-erk3k.mongodb.net/shop';
+  'mongodb+srv://GauravGupta:Gauravsagro840@cluster0-erk3k.mongodb.net/shop';
 
 const app = express ();
 const store = new MongoDBStore ({
@@ -111,8 +111,9 @@ app.use((error, req, res, next) => {
   res.status (500).render ('500', {
     pageTitle: 'Error 500',
     path: '/500',
-    isAuthenticated: req.session.isLoggedIn,
-  });
+    // isAuthenticated: req.session.isLoggedIn, // this is not working
+    isAuthenticated: false,
+  });  
 })
 
 mongoose
