@@ -108,8 +108,10 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const {productId, title, price, imageUrl, description} = req.body;
+  const {productId, title, price, description} = req.body;
+  const image = req.file;
   const errors = validationResult (req);
+
   if(!errors.isEmpty()) {
     return res.status(422).render ('admin/edit-product', {
       pageTitle: 'Edit Product',
@@ -118,7 +120,6 @@ exports.postEditProduct = (req, res, next) => {
       errorMessage: errors.array ()[0].msg,
       product: {
         title: title, 
-        imageUrl: imageUrl, 
         price: price,
         description: description,
         _id: productId
@@ -134,8 +135,11 @@ exports.postEditProduct = (req, res, next) => {
       }
       product.title = title;
       product.price = price;
-      product.imageUrl = imageUrl;
+      if(image) {
+        product.imageUrl = image.path;
+      }
       product.description = description;
+      
       product.save ().then (result => {
         res.redirect ('/admin/admins-products-list');
       });
