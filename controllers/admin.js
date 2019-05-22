@@ -1,6 +1,5 @@
 const Product = require ('../models/product');
 const {validationResult} = require ('express-validator/check');
-const mongoose = require('mongoose');
 
 exports.getAddProduct = (req, res, next) => {
   if (!req.session.isLoggedIn) {
@@ -26,6 +25,21 @@ exports.postAddProduct = (req, res, next) => {
   const image = req.file;
   const errors = validationResult (req);
 
+  if(!image){
+    return res.status(422).render ('admin/edit-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      editing: false,
+      errorMessage: "Attached file is not an image",
+      product: {
+        title: title, 
+        price: price,
+        description: description
+      },
+      validationErrors: []
+    });
+  }
+
   if(!errors.isEmpty()) {
     return res.status(422).render ('admin/edit-product', {
       pageTitle: 'Add Product',
@@ -33,16 +47,17 @@ exports.postAddProduct = (req, res, next) => {
       editing: false,
       errorMessage: errors.array ()[0].msg,
       product: {
-        title: title, 
-        imageUrl: image, 
+        title: title,
         price: price,
         description: description
       },
       validationErrors: errors.array()
     });
   }
+
+  const imageUrl = image.path;
+
   const product = new Product ({
-    // _id: new mongoose.Types.ObjectId('5cc330facd40d814281c41fb'), //creating product with duplicate id
     title,
     price,
     description,
@@ -56,28 +71,11 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect ('/');
     })
     .catch (err => {
-      // console.log ('An error occured!');
-
-      // render 500 server error page
-          // res.render ('admin/edit-product', {
-          //   pageTitle: 'Add Product',
-          //   path: '/admin/add-product',
-          //   editing: false,
-          //   errorMessage: 'Database operation failed, please try again.',
-          //   product: {
-          //     title: title, 
-          //     imageUrl: imageUrl, 
-          //     price: price,
-          //     description: description
-          //   },
-          //   validationErrors: []
-          // });
-      // res.redirect('/500');
+      console.log ("-1",err);
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
     });
-  // products.push ({title: title});
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -101,7 +99,7 @@ exports.getEditProduct = (req, res, next) => {
       });
     })
     .catch (err => {
-      // console.log (err);
+      console.log ("0",err);
       // res.redirect('/500');
       const error = new Error(err);
       error.httpStatusCode = 500;
@@ -143,7 +141,7 @@ exports.postEditProduct = (req, res, next) => {
       });
     })
     .catch (err => {
-      // console.log (err)
+      console.log ("1",err);
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
@@ -157,6 +155,7 @@ exports.postdeleteProduct = (req, res, next) => {
       res.redirect ('/admin/admins-products-list');
     })
     .catch (err => {
+      console.log ("2",err);
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
@@ -176,7 +175,7 @@ exports.getOwnersProductList = (req, res, next) => {
       });
     })
     .catch (err => {
-      // console.log (err);
+      console.log ("3",err);
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
