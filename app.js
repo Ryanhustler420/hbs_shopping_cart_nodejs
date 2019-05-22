@@ -54,6 +54,9 @@ app.use (multer({
   fileFilter: fileFilter
 }).single('image'));
 app.use (express.static (path.join (__dirname, 'public')));
+app.use (express.static (path.join (__dirname, 'images'))); // won't work because it served as root ex. localhost:3000//imageName.png 
+// so below code will work fine in our case
+app.use ('/images', express.static (path.join (__dirname, 'images'))); // serve as root
 app.use (
   session ({
     secret: 'my secret',
