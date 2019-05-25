@@ -1,5 +1,6 @@
 const Product = require ('../models/product');
 const {validationResult} = require ('express-validator/check');
+const FileHelper = require('../util/file');
 
 exports.getAddProduct = (req, res, next) => {
   if (!req.session.isLoggedIn) {
@@ -136,6 +137,7 @@ exports.postEditProduct = (req, res, next) => {
       product.title = title;
       product.price = price;
       if(image) {
+        FileHelper.deleteFile(product.imageUrl);
         product.imageUrl = image.path;
       }
       product.description = description;
@@ -154,16 +156,21 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postdeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteOne ({_id: prodId, userId: req.user._id})
-    .then (() => {
-      res.redirect ('/admin/admins-products-list');
-    })
-    .catch (err => {
-      console.log ("2",err);
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+  Product.findById(prodId).then(product => {
+    if(!product){
+      return next(new Error('Product not found.'))
+    }
+    FileHelper.deleteFile(product.imageUrl);
+    return Product.deleteOne ({_id: prodId, userId: req.user._id});
+  }).then (() => {
+    res.redirect ('/admin/admins-products-list');
+  })
+  .catch (err => {
+    console.log ("2",err);
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
 };
 
 exports.getOwnersProductList = (req, res, next) => {

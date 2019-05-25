@@ -145,14 +145,6 @@ exports.postCartDeleteProduct = (req, res, next) => {
     });
 };
 
-// exports.getCheckout = (req, res, next) => {
-//   // show checkout page
-//   res.render ('shop/checkout', {
-//     pageTitle: 'Checkout',
-//     path: '/checkout',
-//   });
-// };
-
 exports.getOrders = (req, res, next) => {
   Order.find({'user.userId': req.user._id})
     .then(result => {
