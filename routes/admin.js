@@ -27,9 +27,6 @@ router.post ('/add-product', isAuth, [
   .isLength({min: 3})
   .withMessage('Please Enter Product Title'),
 
-  body('imageUrl', 'Please Enter Image URL.')
-  .isURL(),  
-
   check('price')
   .isFloat()
   .custom((value, {req}) => {
@@ -53,9 +50,6 @@ router.post ('/edit-product', [
   .isString()
   .isLength({min: 3})
   .withMessage('Please Enter Product Title'),
-
-  body('imageUrl', 'Please Enter Image URL.')
-  .isURL(),  
 
   check('price')
   .isFloat()

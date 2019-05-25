@@ -44,6 +44,10 @@ npm starts - start the app with nodemon
 
 > express-validator --save
 
+> multer --save
+
+> pdfkit --save
+
 ## DB solution
 
 > Signup For MongoDB Atlas Dastabase as a Service

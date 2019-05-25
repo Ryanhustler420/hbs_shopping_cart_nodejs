@@ -7,9 +7,10 @@ const session = require ('express-session');
 const MongoDBStore = require ('connect-mongodb-session') (session);
 const csrf = require ('csurf');
 const flash = require ('connect-flash');
+const multer = require('multer');
 
 const MONGODB_URI =
-  'mongodb+srv://GauravGupta:phpmyadmin@cluster0-erk3k.mongodb.net/shop';
+  'mongodb+srv://GauravGupta:Gauravsagro840@cluster0-erk3k.mongodb.net/shop';
 
 const app = express ();
 const store = new MongoDBStore ({
@@ -20,8 +21,25 @@ const store = new MongoDBStore ({
 
 const csrfProtection = csrf ();
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
+  }
+})
+
 const {error404, error500} = require ('./controllers/error');
 const User = require ('./models/user');
+
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+}
 
 app.set ('view engine', 'ejs');
 app.set ('views', 'views'); //where to find the templates
@@ -31,7 +49,14 @@ const shopRoutes = require ('./routes/shop');
 const authRoutes = require ('./routes/auth');
 
 app.use (bodyParser.urlencoded ({extended: false}));
+app.use (multer({
+  storage: fileStorage,
+  fileFilter: fileFilter
+}).single('image'));
 app.use (express.static (path.join (__dirname, 'public')));
+app.use (express.static (path.join (__dirname, 'images'))); // won't work because it served as root ex. localhost:3000//imageName.png 
+// so below code will work fine in our case
+app.use ('/images', express.static (path.join (__dirname, 'images'))); // serve as root
 app.use (
   session ({
     secret: 'my secret',
@@ -89,8 +114,9 @@ app.use((error, req, res, next) => {
   res.status (500).render ('500', {
     pageTitle: 'Error 500',
     path: '/500',
-    isAuthenticated: req.session.isLoggedIn,
-  });
+    isAuthenticated: req.session.isLoggedIn, // this is not working
+    // isAuthenticated: false,
+  });  
 })
 
 mongoose
@@ -101,3 +127,5 @@ mongoose
   .catch (err => {
     console.log (err);
   });
+
+  // Clear All Products in Database
