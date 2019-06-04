@@ -8,7 +8,7 @@ const {
   getOwnersProductList,
   getEditProduct,
   postEditProduct,
-  postdeleteProduct,
+  deleteProduct,
 } = require ('../controllers/admin');
 
 const router = express.Router ();
@@ -66,6 +66,6 @@ router.post ('/edit-product', [
   
 ], isAuth, postEditProduct);
 
-router.post ('/delete-product', isAuth, postdeleteProduct);
+router.delete ('/product/:productId', isAuth, deleteProduct);
 
 module.exports = router;
